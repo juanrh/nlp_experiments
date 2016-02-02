@@ -53,6 +53,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
  /*
  * TODO: implemement as SparkML pipeline https://spark.apache.org/docs/latest/ml-guide.html#algorithm-guides
+ * TODO: build RoC curve for TPR and FPR
  * TODO: perform https://en.wikipedia.org/wiki/Text_segmentation with https://github.com/scalanlp/chalk instead
  * of the basic parsing so far (e.g. support stop words)
  * */
