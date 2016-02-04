@@ -59,10 +59,11 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
  * */
 object SMSSpamCollectionClassifier extends App {
   val conf = new SparkConf().setAppName("SMSSpamCollectionClassifier")
-                          .setMaster("local[*]")
+                            .setMaster("local[*]")
   val sc = new SparkContext(conf)
  
   val dataPath = getClass.getResource("/SMSSpamCollection")
+  val outputModelPath = new File(FileSystems.getDefault().getPath("target", "tmp", "SMSSpamCollectionBayesModel").toString())
   val labels = Map("ham" -> 0.0, "spam" -> 1.0)
   
   val data = sc.textFile(dataPath.toString, minPartitions=4)
@@ -94,7 +95,6 @@ object SMSSpamCollectionClassifier extends App {
   println(f"accuracy: ${accuracy * 100}%2.3f %%")
 
   // Save and load model
-  val outputModelPath = new File(FileSystems.getDefault().getPath("target", "tmp", "SMSSpamCollectionBayesModel").toString())
   println(s"saving model to file $outputModelPath")
   if (outputModelPath.exists()) {
     FileUtils.deleteDirectory(outputModelPath)
