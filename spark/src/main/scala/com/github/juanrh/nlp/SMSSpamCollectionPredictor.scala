@@ -62,11 +62,12 @@ object SMSSpamCollectionPredictor extends App {
   val data = Source.fromFile(dataPath)
   
   println("computing predictions")
-  for (line <- data.getLines.take(10)) {
+  for (line <- data.getLines.take(100)) {
     val words : Seq[String] = line.dropWhile{ _ !=  '\t' }.drop(1)
                                   .split("\\s+").map(_.toLowerCase)
-    val prediction = labels(model.predict(hashingTF.transform(words)).toInt)
-    println(s""""predicted "${prediction}" for line [${line}]"""")
+    val features = hashingTF.transform(words)                              
+    val (predictedLabel, predictedProb) = (labels(model.predict(features).toInt), model.predictProbabilities(features))
+    println(f""""predicted label "${predictedLabel}" with ${predictedProb(0) * 100}%2.3f%% ham probability for line [${line}]"""")
   }
   println("bye")
   
